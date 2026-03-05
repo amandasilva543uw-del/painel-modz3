@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Asiatico Santana Modz</title>
+
+<style>
+body{
+    font-family:Arial;
+    background:#0b0b0b;
+    color:white;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+}
+
+.box{
+    background:#151515;
+    padding:30px;
+    border-radius:12px;
+    width:360px;
+    text-align:center;
+    box-shadow:0 0 20px #00ff88;
+}
+
+input, textarea{
+    width:100%;
+    padding:10px;
+    margin:10px 0;
+    border:none;
+    border-radius:6px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    background:#00ff88;
+    border:none;
+    border-radius:6px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.result{
+    margin-top:15px;
+    background:#000;
+    padding:15px;
+    border-radius:8px;
+}
+
+.hidden{
+    display:none;
+}
+</style>
+</head>
+
+<body>
+
+<!-- LOGIN KEY -->
+<div class="box" id="loginBox">
+    <h2>🔐 Acesso ao Painel</h2>
+    <input type="password" id="keyInput" placeholder="Digite a KEY">
+    <button onclick="verificarKey()">Entrar</button>
+    <p id="erro" style="color:red;"></p>
+</div>
+
+<!-- PAINEL -->
+<div class="box hidden" id="painel">
+    <h2>ASIATICO SANTANA MODZ</h2>
+
+    <input type="text" id="idConta" placeholder="ID da Conta">
+    <textarea id="motivo" placeholder="Motivo da denúncia"></textarea>
+
+    <button onclick="enviar()">Enviar Denúncia</button>
+
+    <div class="result hidden" id="resultado"></div>
+</div>
+
+<script>
+
+// 🔑 KEY DO PAINEL (você pode mudar)
+const KEY_CORRETA = "SANTANA2026";
+
+function verificarKey(){
+    let key = document.getElementById("keyInput").value;
+
+    if(key === KEY_CORRETA){
+        document.getElementById("loginBox").classList.add("hidden");
+        document.getElementById("painel").classList.remove("hidden");
+    }else{
+        document.getElementById("erro").innerText="KEY inválida!";
+    }
+}
+
+function enviar(){
+    let id = document.getElementById("idConta").value;
+    let motivo = document.getElementById("motivo").value;
+
+    if(id==="" || motivo===""){
+        alert("Preencha tudo!");
+        return;
+    }
+
+    let tempo = 3600; // 1 hora em segundos
+    let box = document.getElementById("resultado");
+
+    box.classList.remove("hidden");
+
+    function atualizar(){
+        let minutos = Math.floor(tempo/60);
+        let segundos = tempo%60;
+
+        box.innerHTML = `
+        ✅ Denúncia enviada<br><br>
+        ID: <b>${id}</b><br>
+        Motivo: ${motivo}<br><br>
+        ⏳ Conta irá cair em:
+        <h2>${minutos}:${segundos.toString().padStart(2,'0')}</h2>
+        Obrigado por ter comprado o painel.<br>
+        <small>asiatico santana modz ©</small>
+        `;
+
+        if(tempo > 0){
+            tempo--;
+            setTimeout(atualizar,1000);
+        }
+    }
+
+    atualizar();
+}
+
+</script>
+
+</body>
+</html>
